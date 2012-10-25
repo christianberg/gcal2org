@@ -9,4 +9,6 @@
                  [com.google.apis/google-api-services-calendar "v3-rev16-1.8.0-beta"]
                  [com.google.http-client/google-http-client-jackson2 "1.11.0-beta"]
                  [com.google.oauth-client/google-oauth-client-jetty "1.11.0-beta"]]
+  :profiles {:dev {:dependencies [[midje "1.4.0"]]}}
+  :plugins [[lein-midje "2.0.0-SNAPSHOT"]]
   :repositories [["google-api-services" "http://mavenrepo.google-api-java-client.googlecode.com/hg"]])
