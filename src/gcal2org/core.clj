@@ -16,13 +16,14 @@
 
 (def json-factory (JacksonFactory.))
 
-(defn authorize []
+(def default-credential-store (FileCredentialStore. (io/file (System/getProperty "user.home")
+                                                             ".credentials" "calendar.json")
+                                                    json-factory))
+
+(defn authorize [credential-store]
   (let [client-secrets (GoogleClientSecrets/load json-factory
                                                  (io/input-stream
                                                   (io/resource "client_secrets.json")))
-        credential-store (FileCredentialStore. (io/file (System/getProperty "user.home")
-                                                        ".credentials" "calendar.json")
-                                               json-factory)
         flow (.. (GoogleAuthorizationCodeFlow$Builder. http-transport
                                                        json-factory
                                                        client-secrets
@@ -41,7 +42,7 @@
       build))
 
 (defn events [calendar-id start end]
-  (let [client (client (authorize))]
+  (let [client (client (authorize default-credential-store))]
     (seq
      (get (.. client
               events
